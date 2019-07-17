@@ -23,7 +23,7 @@ $app = new Laravel\Lumen\Application(
 
 // $app->withFacades();
 
-// $app->withEloquent();
+ $app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +65,8 @@ $app->singleton(
 //     'auth' => App\Http\Middleware\Authenticate::class,
 // ]);
 
+$app->bind(\Carbon\CarbonInterface::class, \Carbon\Carbon::class);
+
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -79,6 +81,9 @@ $app->singleton(
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+
+$app->register(\App\Providers\RepositoryServiceProvider::class);
+$app->register(\App\Providers\HashGeneratorServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
