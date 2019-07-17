@@ -28,10 +28,11 @@ class HashGenerator implements HashGeneratorInterface
     }
 
     /**
+     * @todo replace with more reliable algorithm
      * @inheritDoc
      */
     public function generate() : string
     {
-        return $this->hashids->encode($this->carbon->getPreciseTimestamp(4));
+        return $this->hashids->encode((int) $this->carbon::now()->getPreciseTimestamp(4));
     }
 }
