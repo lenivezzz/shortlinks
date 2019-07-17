@@ -22,16 +22,15 @@ class HashGeneratorTest extends TestCase
             ->getMock();
         $hashids->expects($this->exactly(2))
             ->method('encode')
-            ->withConsecutive([1], [2])
+            ->withConsecutive([10000], [20000])
             ->willReturn('hash1', 'hash2');
         /** @var CarbonInterface|MockObject $carbon */
-        $carbon = $this->getMockBuilder(Carbon::class)
-            ->setMethods(['getPreciseTimestamp'])
-            ->getMock();
-        $carbon->method('getPreciseTimestamp')->willReturn(1, 2);
 
+        $carbon = Carbon::now();
         $hashGenerator = new HashGenerator($hashids, $carbon);
+        Carbon::setTestNow('1970-01-01 00:00:01');
         $this->assertEquals('hash1', $hashGenerator->generate());
+        Carbon::setTestNow('1970-01-01 00:00:02');
         $this->assertEquals('hash2', $hashGenerator->generate());
     }
 }

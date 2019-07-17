@@ -1,0 +1,25 @@
+language: php
+dist: xenial
+
+php:
+  - 7.2
+  - 7.3
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install sqlite
+  - sudo apt-get install php-gmp
+  - sudo apt-get install php-bcmath
+
+install:
+  - composer install --no-interaction
+
+before_script:
+  - php -S localhost:8000 -t ./public > /dev/null 2>&1 &
+
+script:
+  - ./vendor/bin/phpcs
+  - ./vendor/bin/phpunit
+
+after_failure:
+  - cat ./storage/logs/lumen-*.log
